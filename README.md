@@ -1,55 +1,156 @@
-# Assignment 5: Using our server API and implementing state on the front-end
-In this final assignment, we will work on integrating the back-end with our Angular code, and also making the client-side code more modular by introducing the concept of state. 
+# Testing 
 
-### Using $http to make requests 
-Now that we have created a server that handles all the CRUD tasks associated with directory listings, we are ready to incorporate this into the Angular application. The [$http](https://docs.angularjs.org/api/ng/service/$http) service makes it possible to make requests to retrieve data from an external source. Calls to $http are asynchronous, so we again must handle the data they retrieve through callbacks. Here is a sample GET request from the AngularJS docs: 
+## Installation
 
-```javascript
-$http({
-  method: 'GET',
-  url: '/someUrl'
-}).then(function successCallback(response) {
-    // this callback will be called asynchronously
-    // when the response is available
-  }, function errorCallback(response) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-  });
+The first step in testing is installation. These steps will ensure that the proper tools are in place so that the tests can be run correctly and ensure the application runs as intended. 
+
+### Prerequisite Installations
+To work test with the following frameworks, Node.js and Meanjs must be properly installed and functioning. 
+#### Node.js
+For Windows:  
+ - Install Node.jsv5.3.0 at https://nodejs.org/en/download/releases/
+
+For Mac/ Linux:
+- Make a new global npm folder:
+```
+$mkdir ~/.npm_global
+```
+- Set global prefix to previously created folder:
+```
+$npm config set prefix '~/.npm_global'
 ```
 
-If you take a look at the listing factory, you will notice that it is no longer returns a JSON object, but rather has methods that allow us to retrieve the same data from our server through requests made via $http. If you navigate to the controller, you will see some examples of how the factory's methods are used to handle the asynchronous requests to our server API. You will be responsible for fully integrating the front-end with the server to provide a user interface to view, create, update, and delete listings. 
+- Find either the file '.bash_profile' or '.profile' and paste the following:
+```
+export PATH=~/.npm_global/bin:$PATH
+```
+- For Linux, npm might not be bundled. If so, use the prefered package manager to install.
 
-### Angular-UI Router
-We will use [**Angular-UI Router**](https://github.com/angular-ui/ui-router/wiki), which is a framework that allows us to implement client-side routing with the concept of state. 
+There are some required node packages must also be installed as follows:
+```
+$npm install -g bower
+$npm install -g grunt-cli
+$npm install -g yo
+$npm install -g generator-meanjs
+```
+#### Meanjs
+To generate the mean.js stack:
+- Locate the mean stack repository.
+- Run Yeoman:
+```
+$yo meanjs
+```
+- Pick 0.4.2 when prompted.
+- Run as a backup to ensure all installations:
+```
+$npm install
+```
+A full tutorial of the previous installation process can be accessed here: https://docs.google.com/document/d/1Vj3NJlzzqpkeg9a73v0R26lgqnYwoV7kgZ_MxMLk6S8/edit?usp=sharing.
 
-On the server-side, the concept of "routing" refers to how Express handles requests made to the API. On the client-side, "routing" stands for something slightly different. In our application, the user will have several views that they can navigate to (a list view, individual listing view, map view, etc). Each of these parts of the user interface can be considered a specific **state** of the application. When I navigate to the map view, the applications "state" could be associated with displaying a map. 
+### Jasmine
+Jasmine is the testing suite framework for testing front end application work. 
 
-Ideally, these states should have a URL associated with them. If a user is to type `www.directoryapp.com/listings/map` in the browser, they should see the map view discussed previously. This is where client-side routing differs from server-side routing. On the client-side, each URL is associated with a *specific application state*. 
+To install, use npm:
+```
+$npm install -g jasmine
+```
 
-Go to the routes defined in the client-side config folder. You will notice there are several states associated with different views. 
-- If I were to type `http://localhost:8080/listings` into the browser, the UI-Router code defined in the routes should take me to the state `listings.list`
-- Now take a look at the view associated with `listings.list`. When this view is initialized, a call is made to the server to retrieve all listings via the `find()` method defined in the `ListingsController`, and the view is populated with the results of this call.
+### Mocha
+Mocha is the back end framework for running tests. 
 
-View [this tutorial](https://scotch.io/tutorials/angular-routing-using-ui-router) for more information on using Angular UI Router. Also refer to the [wiki](https://github.com/angular-ui/ui-router/wiki) for an in-depth explanation of the router's mechanisms. 
+To install, use npm:
+```
+$npm install -g mocha
+```
 
-### Prerequisites
-- clone the repository
-- in the project directory run `npm install` and `bower install`
+### Karma
+Karma is the testing environment used for front end testing that works with the Jasmine framework. 
 
-### Assignment, Part 1
-Taking a look at the source code, you should notice that the file structure is much more involved than previous assignments. Like assignment 4, before implementing any code you should diagram out how the different parts of the application are communicating with one another. 
-Take note specifically of:
-   - the interactions between the router, the view, the controller, and the server-side API in order to create an *integrated* full-stack web application
-   - *error handling* for asynchronous calls to the server
-   - indicating to the user that a server-side request is *loading*
-   - indicating to the user that input was *successfully handled*
+To install, use npm:
+```
+$npm install karma --save-dev
+```
+Additionally, Karma may require some plug ins, such as Jasmine and Chrome Launcher. This also can be installed using npm:
+```
+$npm install karma-jasmine karma-chrome-launcher --save-dev
+```
+Since it is easier and more convenient to run Karma from the command line, it can be installed with npm:
+```
+$npm install -g karma-cli
+```
 
+### Protractor
+Protractor is the testing environment used for running end-2-end tests on an application. 
 
-### Assignment, Part 2
-1. Configure the application to maintain 2 additional states
-    - `listings.edit`
-    - `listings.map`
-2. Implement the incomplete functions in the `ListingsController` to: 
-    - update listings
-    - remove listings
-3. Create views for the `listings.edit` and `listings.map` states
+To install, use npm:
+```
+$npm install -g protractor
+```
+Additionally, a helper tool, webdriver-manager, can be installed to have a Selenium Server run, which outputs information logs and is available at http://localhost:4444/wd/hub. The necessary code to download the necessary binaries and start the server to contain the outputs, respectively, is as follows:
+
+```
+$webdriver-manager update
+$webdriver-manager start
+```
+
+## Command Line Testing
+The aforementioned testing mechanisms can all be run through the command line. 
+
+### Jasmine
+
+To initialize a Jasmine project, type in the command line:
+```
+$jasmine init
+```
+
+To run tests through Jasmine, type in the command line:
+```
+$jasmine
+```
+
+### Mocha
+
+In order to create a test file, make a test directory and a test file, respectively, in the following way:
+```
+$mkdir test
+$ $EDITOR test/test.js
+```
+
+To run mocha tests, type in the command line:
+```
+$make test
+```
+
+To run tests with interfaces included, update the code to say the following:
+```
+$make test-all
+```
+
+If the reporter needs to be altared, type the following in the commmand line:
+```
+$make test REPORTER=list
+```
+
+### Karma 
+
+To run the local version of Karma, type the following into the command line:
+```
+$karma
+```
+
+### Protractor
+
+To run Protractor, type the following:
+```
+$protractor conf.js
+```
+where conf.js is the configuration file. 
+
+### Links
+
+For additional information on installation and the testing systems to be used.
+
+- Jasmine: http://jasmine.github.io/
+- Mocha: https://github.com/mochajs/mocha
+- Karma: https://karma-runner.github.io/0.13/index.html
+- Protractor: http://www.protractortest.org/#/
