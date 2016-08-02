@@ -3,13 +3,14 @@ var should = require('should'),
     express = require('../config/express'), 
     Listing = require('../models/listings.server.model.js');
 
-/* Global variables */
-var app, agent, listing, id;
+var app, agent, id;
+var listing = {
+    name: 'Example',
+    code: 'EX',
+    address: '123 Sample Road, Gainesville, FL 32601, United States'
+};
 
-/* Unit tests for testing server side routes for the listings API */
-describe('Listings CRUD tests', function() {
-
-  this.timeout(10000);
+describe('Listings', function() {
 
   before(function(done) {
     app = express.init();
@@ -18,17 +19,16 @@ describe('Listings CRUD tests', function() {
     done();
   });
 
-  it('should it able to retrieve all listings', function(done) {
+  it('should get all listings', function(done) {
     agent.get('/api/listings')
-      .expect(200)
-      .end(function(err, res) {
+    .end(function(err, res) {
+        res.should.have.status(200);
         should.not.exist(err);
-        should.exist(res);
-        res.body.should.have.length(147);
+        should.exist(res.body._id);
         done();
       });
   });
-  it('should be able to retrieve a single listing', function(done) {
+  it('should get a single listing with an id', function(done) {
     Listing.findOne({name: 'Library West'}, function(err, listing) {
       if(err) {
         console.log(err);
@@ -48,59 +48,53 @@ describe('Listings CRUD tests', function() {
     });
   });
 
-  it('should be able to save a listing', function(done) {
-    var listing = {
-      code: 'CEN3035', 
-      name: 'Introduction to Software Engineering', 
-      address: '432 Newell Dr, Gainesville, FL 32611'
-    };
-    agent.post('/api/listings')
-      .send(listing)
-      .expect(200)
-      .end(function(err, res) {
+  it('should create a new listing', function(done) {
+    agent.post(/api/listings)
+    .send(listing)
+    .end(function(err, res) {
+        res.should.have.status(200);
         should.not.exist(err);
         should.exist(res.body._id);
-        res.body.name.should.equal('Introduction to Software Engineering');
-        res.body.code.should.equal('CEN3035');
-        res.body.address.should.equal('432 Newell Dr, Gainesville, FL 32611');
-        id = res.body._id;
+        res.body.name.should.equal('Example');
+        res.body.code.should.equal('EX');
+        res.body.address.should.equal('123 Sample Road, Gainesville, FL 32601, United States');
         done();
       });
+
   });
 
-  it('should be able to update a listing', function(done) {
+  it('should update a listing', function(done) {
     var updatedListing = {
-      code: 'CEN3031', 
-      name: 'Introduction to Software Engineering', 
-      address: '432 Newell Dr, Gainesville, FL 32611'
+        name: 'Updated Example',
+        code: 'UEX',
+        address: '123 Update Ave, Gainesville, FL 32601, United States'
     };
 
-    agent.put('/api/listings/' + id)
-      .send(updatedListing)
-      .expect(200)
-      .end(function(err, res) {
+    agent.put('/api/listings/' +id)
+    .send(updatedListing)
+    .end(function(err, res) {
+        res.should.have.status(200);
         should.not.exist(err);
         should.exist(res.body._id);
-        res.body.name.should.equal('Introduction to Software Engineering');
-        res.body.code.should.equal('CEN3031');
-        res.body.address.should.equal('432 Newell Dr, Gainesville, FL 32611');
+        res.body.name.should.equal('Updated Example');
+        res.body.code.should.equal('UEX');
+        res.body.address.should.equal('123 Update Ave, Gainesville, FL 32601, United States');
         done();
       });
   });
 
-  it('should be able to delete a listing', function(done) {
-    agent.delete('/api/listings/' + id)
-      .expect(200)
-      .end(function(err, res) {
+  it('should delete a listing', function(done) {
+    agent.delete('/api/listings/' +id)
+    .end(function(err, res) {
+        res.should.have.status(200);
         should.not.exist(err);
-        should.exist(res);
+        should.exist(res.body._id);
 
-        agent.get('/api/listings/' + id) 
-          .expect(400)
-          .end(function(err, res) {
+        agent.get('/api/listings/' + id)
+            .end(function(err, res) {
+            res.should.have.status(400);
             id = undefined;
-            done();
-          });
+            }
       })
   });
 
