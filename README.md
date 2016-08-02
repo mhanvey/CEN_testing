@@ -1,4 +1,16 @@
-:
+# Testing 
+
+## Installation
+
+The first step in testing is installation. These steps will ensure that the proper tools are in place so that the tests can be run correctly and ensure the application runs as intended. 
+
+### Prerequisite Installations
+To work test with the following frameworks, Node.js and Meanjs must be properly installed and functioning. 
+#### Node.js
+For Windows:  
+ - Install Node.jsv5.3.0 at https://nodejs.org/en/download/releases/
+
+For Mac/ Linux:
 - Make a new global npm folder:
 ```
 $mkdir ~/.npm_global
