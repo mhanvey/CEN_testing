@@ -1,14 +1,15 @@
-var should = require('should'), 
-    request = require('supertest'), 
-    express = require('../config/express'), 
+var should = require('should'),
+    request = require('supertest'),
+    express = require('../config/express'),
     Listing = require('../models/listings.server.model.js');
 
 var app, agent, id;
-var listing = {
+var listing {
     name: 'Example',
     code: 'EX',
-    address: '123 Sample Road, Gainesville, FL 32601, United States'
+    address: '123 Sample Road, Gainesville, FL 32601, United States',
 };
+
 
 describe('Listings', function() {
 
@@ -28,7 +29,8 @@ describe('Listings', function() {
         done();
       });
   });
-  it('should get a single listing with an id', function(done) {
+
+  /*it('should be able to retrieve a single listing', function(done) {
     Listing.findOne({name: 'Library West'}, function(err, listing) {
       if(err) {
         console.log(err);
@@ -46,12 +48,12 @@ describe('Listings', function() {
           });
       }
     });
-  });
+  });*/
 
   it('should create a new listing', function(done) {
     agent.post(/api/listings)
     .send(listing)
-    .end(function(err, res) {
+    .end(function(err, res){
         res.should.have.status(200);
         should.not.exist(err);
         should.exist(res.body._id);
@@ -60,10 +62,9 @@ describe('Listings', function() {
         res.body.address.should.equal('123 Sample Road, Gainesville, FL 32601, United States');
         done();
       });
-
   });
 
-  it('should update a listing', function(done) {
+  it('should update a listing', function(done){
     var updatedListing = {
         name: 'Updated Example',
         code: 'UEX',
@@ -83,7 +84,7 @@ describe('Listings', function() {
       });
   });
 
-  it('should delete a listing', function(done) {
+ it('should delete a listing', function(done) {
     agent.delete('/api/listings/' +id)
     .end(function(err, res) {
         res.should.have.status(200);
@@ -93,8 +94,8 @@ describe('Listings', function() {
         agent.get('/api/listings/' + id)
             .end(function(err, res) {
             res.should.have.status(400);
-            id = undefined;
-            }
+            done();
+          });
       })
   });
 
