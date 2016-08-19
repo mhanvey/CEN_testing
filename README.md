@@ -54,50 +54,6 @@ To install, use npm:
 ```
 $npm install -g jasmine
 ```
-
-### Mocha
-Mocha is the back end framework for running tests. 
-
-To install, use npm:
-```
-$npm install -g mocha
-```
-
-### Karma
-Karma is the testing environment used for front end testing that works with the Jasmine framework. 
-
-To install, use npm:
-```
-$npm install karma --save-dev
-```
-Additionally, Karma may require some plug ins, such as Jasmine and Chrome Launcher. This also can be installed using npm:
-```
-$npm install karma-jasmine karma-chrome-launcher --save-dev
-```
-Since it is easier and more convenient to run Karma from the command line, it can be installed with npm:
-```
-$npm install -g karma-cli
-```
-
-### Protractor
-Protractor is the testing environment used for running end-2-end tests on an application. 
-
-To install, use npm:
-```
-$npm install -g protractor
-```
-Additionally, a helper tool, webdriver-manager, can be installed to have a Selenium Server run, which outputs information logs and is available at http://localhost:4444/wd/hub. The necessary code to download the necessary binaries and start the server to contain the outputs, respectively, is as follows:
-
-```
-$webdriver-manager update
-$webdriver-manager start
-```
-
-## Command Line Testing
-The aforementioned testing mechanisms can all be run through the command line. 
-
-### Jasmine
-
 To initialize a Jasmine project, type in the command line:
 ```
 $jasmine init
@@ -109,7 +65,12 @@ $jasmine
 ```
 
 ### Mocha
+Mocha is the back end framework for running tests. 
 
+To install, use npm:
+```
+$npm install -g mocha
+```
 In order to create a test file, make a test directory and a test file, respectively, in the following way:
 ```
 $mkdir test
@@ -131,29 +92,45 @@ If the reporter needs to be altared, type the following in the commmand line:
 $make test REPORTER=list
 ```
 
-### Karma 
+### Karma
+Karma is the testing environment used for front end testing that works with the Jasmine framework. 
 
+To install, use npm:
+```
+$npm install karma --save-dev
+```
+Additionally, Karma may require some plug ins, such as Jasmine and Chrome Launcher. This also can be installed using npm:
+```
+$npm install karma-jasmine karma-chrome-launcher --save-dev
+```
+Since it is easier and more convenient to run Karma from the command line, it can be installed with npm:
+```
+$npm install -g karma-cli
+```
 To run the local version of Karma, type the following into the command line:
 ```
 $karma
 ```
 
 ### Protractor
+Protractor is the testing environment used for running end-2-end tests on an application. 
+
+To install, use npm:
+```
+$npm install -g protractor
+```
+Additionally, a helper tool, webdriver-manager, can be installed to have a Selenium Server run, which outputs information logs and is available at http://localhost:4444/wd/hub. The necessary code to download the necessary binaries and start the server to contain the outputs, respectively, is as follows:
+
+```
+$webdriver-manager update
+$webdriver-manager start
+```
 
 To run Protractor, type the following:
 ```
 $protractor conf.js
 ```
 where conf.js is the configuration file. 
-
-### Links
-
-For additional information on installation and the testing systems to be used.
-
-- Jasmine: http://jasmine.github.io/
-- Mocha: https://github.com/mochajs/mocha
-- Karma: https://karma-runner.github.io/0.13/index.html
-- Protractor: http://www.protractortest.org/#/
 
 # Writing Tests in Jasmine
 Here is an overview of how to construct a test in Jasmine.
@@ -595,15 +572,6 @@ should.exist(res.body._id);
 
 Lastly, a done() should be added to complete the callback.
 
-Additionally, just one listing can be retreived and tested. The it() statement for that example would be:
-```
-it('should get a single listing with an id', function(done){...}
-```
-
-For getting one listing, the listing needs to be declared. In this example, the listing will be as follows:
-```
-
-```
 
 #### Update
 The update functionality allows the listings to be updated after already created if necessary. This update relates to the PUT call. 
@@ -688,3 +656,15 @@ agent.get('/api/listings/' + id)
 Lastly, the callback done() must be made to complete the function.
 
 These can all the tested to ensure the listings can be deleted. 
+
+This is one of the many ways to test. There are other tests within the code that are written through the same ideology. 
+
+### Links
+
+For additional information on installation and the testing systems to be used.
+
+- Jasmine: http://jasmine.github.io/
+- Mocha: https://github.com/mochajs/mocha
+- Karma: https://karma-runner.github.io/0.13/index.html
+- Protractor: http://www.protractortest.org/#/
+   
