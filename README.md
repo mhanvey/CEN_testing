@@ -459,6 +459,14 @@ This is how to write code in Mocha,
 
 The writing for Mocha is similar to constructing that of Jasmine. Here is a guide on the properties:
 
+## Assertion Libraries
+There are various libraries for assertions that can be used for Mocha testing. They are:
+- should.js
+- expect.js
+- chai
+- better-assert
+- unexpected
+
 ## Synchronous vs Asynchronous code
 - Synchronous: does not require a callback to continue to the next test
 ```
@@ -483,7 +491,37 @@ describe('test', function(){
 ```
 Alternatively, a Promise could be used.
 
-## Example CRUD Testing
+## Hooks
+The same hooks as explained in the Jasmine tutorial apply here, which are:
+    - before()
+    - after()
+    - beforeEach()
+    - afterEach()
+    
+These can be described through names. Also, these hooks can be asynchronous. They can be defined in the root level as well.
+
+## Pending Tests
+Pending tests are also a possibility. Tests that should show up as pending simply just do not have a callback statement. 
+
+## Exclusive and Inclusive Tests
+- Exclusive testing uses the .only() function to specify that only those specified blocks should run in this particular test.
+- Inclusive tests, on the completely opposite side, use the .skip() call to skip the specific block in the test.
+
+## Dynamically Generated Tests
+Tests can be created dynamically within the code. This can be done in 3 easy steps.
+- defining the function with the correct parameters that the test should look for, 
+- creating a suite for that function with an array containing whatever is desired to be tested in the function and the expected value, 
+- and testing each variable in the array using the forEach() call seeing if after the function is called, the value equals the value that is expected. 
+
+## Timeouts
+Timeouts can be set up in the suite, test, and hook levels. This can be done by doing as follows:
+```
+this.timeout(#);
+setTimeout(done, time);
+```
+where # is the maximum time for the timeout and time is the specific time for this timeout. 
+
+# Example CRUD Testing
 Through this section, CRUD testing using Mocha as discussed before will be explained. The application being worked on is a University of Florida directory that stores data within a database. These Mocha tests will check that the create, read, update, and delete functions are working properly. 
 
 #### Setup
@@ -667,4 +705,3 @@ For additional information on installation and the testing systems to be used.
 - Mocha: https://github.com/mochajs/mocha
 - Karma: https://karma-runner.github.io/0.13/index.html
 - Protractor: http://www.protractortest.org/#/
-   
